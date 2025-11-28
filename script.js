@@ -275,9 +275,18 @@ function drawRadarChart(sortedScores) {
         svg.appendChild(circle);
     }
 
-    // 绘制数据
-    const dimensions = ['D', 'S', 'Sa', 'M', 'Sw'];
+    // 绘制数据 - 按照Switch在顶部的顺序排列
+    const dimensions = ['Sw', 'M', 'S', 'D', 'Sa'];
     const angleStep = (Math.PI * 2) / dimensions.length;
+
+    // 英文简写标签映射
+    const labelMap = {
+        'Sw': 'Switch',
+        'M': 'M',
+        'S': 'Sub',
+        'D': 'Dom',
+        'Sa': 'S'
+    };
 
     // 绘制轴线和标签
     dimensions.forEach((dim, index) => {
@@ -295,7 +304,7 @@ function drawRadarChart(sortedScores) {
         line.setAttribute('stroke-width', '1');
         svg.appendChild(line);
 
-        // 标签
+        // 标签 - 使用英文简写
         const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         const labelX = centerX + Math.cos(angle) * (maxRadius + 20);
         const labelY = centerY + Math.sin(angle) * (maxRadius + 20);
@@ -306,7 +315,7 @@ function drawRadarChart(sortedScores) {
         text.setAttribute('fill', '#1D1D1F');
         text.setAttribute('font-size', '14');
         text.setAttribute('font-weight', '600');
-        text.textContent = resultDescriptions[dim].name.split(' ')[0];
+        text.textContent = labelMap[dim];
         svg.appendChild(text);
     });
 
